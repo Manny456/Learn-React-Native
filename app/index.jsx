@@ -2,24 +2,39 @@ import { AppRegistry, StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import pizza1 from "../assets/img/pizza1.png";
 import { Link } from "expo-router";
+import ThemedView from "../components/ThemedView";
+import ThemedCard from "../components/ThemedCard";
+import ThemedLogo from "../components/ThemedLogo";
+import Spacer from "../components/Spacer";
+import ThemedText from "../components/ThemedText";
 
 const Home = () => {
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <Text style={styles.title}>Hallo Hallo</Text>
+    <ThemedView style={styles.container}>
+      <ThemedText>Home</ThemedText>
+      <ThemedText style={styles.title}>Hallo Hallo</ThemedText>
 
-      <View>
+      <ThemedCard>
         <Text style={styles.myCard}>This is a card</Text>
-      </View>
-      <Image source={pizza1} style={styles.imageDimensions} />
-      <Link style={styles.linkStyle} href="/about">
-        About Page
+      </ThemedCard>
+
+      <Spacer height={10}></Spacer>
+
+      <ThemedText title={true}>Trying out Themed Text</ThemedText>
+
+      <Spacer height={10}></Spacer>
+
+      <ThemedLogo style={styles.imageDimensions} />
+
+      <Spacer height={10}></Spacer>
+
+      <Link style={styles.linkStyle} href="/register">
+        <ThemedText>Register</ThemedText>
       </Link>
-      <Link style={styles.linkStyle} href="/contact">
-        Contact us Here
+      <Link style={styles.linkStyle} href="/login">
+        <ThemedText>Login</ThemedText>
       </Link>
-    </View>
+    </ThemedView>
   );
 };
 

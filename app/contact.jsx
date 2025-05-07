@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import ThemedText from "../components/ThemedText";
 
 const Contact = () => {
   return (
     <View style={styles.container}>
-      <Text>Contact us Here</Text>
-      <Text>Number 0763376373</Text>
-      <Text>testEmail@gmail.com</Text>
+      <ThemedText>Contact us Here</ThemedText>
+      <ThemedText>Number 0763376373</ThemedText>
+      <ThemedText>testEmail@gmail.com</ThemedText>
     </View>
   );
 };
