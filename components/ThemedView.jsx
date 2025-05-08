@@ -31,10 +31,3 @@ const ThemedView = ({ style, safe = false, ...props }) => {
 };
 
 export default ThemedView;
-
-import { Client, Account } from "react-native-appwrite";
-
-const client = new Client()
-  .setEndpoint("https://fra.cloud.appwrite.io/v1")
-  .setProject("681cbcf400386489d810")
-  .setPlatform("dev.manny.learnReact");
