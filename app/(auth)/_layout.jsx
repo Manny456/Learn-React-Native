@@ -13,6 +13,8 @@ export default function AuthLauout() {
     <>
       <Stack
         screenOptions={{
+          headerShown: false,
+          animation: "none",
           headerStyle: {
             backgroundColor: theme.navBackground,
           },
@@ -21,7 +23,6 @@ export default function AuthLauout() {
       ></Stack>
       <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       <StatusBar style="auto" />
-      <Stack screenOptions={{ headerShown: false, animation: "none" }} />
     </>
   );
 }
