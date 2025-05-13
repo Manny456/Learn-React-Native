@@ -3,6 +3,7 @@ import React from "react";
 import { Slot, Stack } from "expo-router";
 import { Colors } from "../constants/Colors";
 import { StatusBar } from "expo-status-bar";
+import { UserProvider } from "../contexts/userContext";
 
 const RootLayout = () => {
   const colorSceheme = useColorScheme();
@@ -10,7 +11,7 @@ const RootLayout = () => {
   console.log(colorSceheme);
 
   return (
-    <>
+    <UserProvider>
       <StatusBar value="auto" />
       <Stack
         screenOptions={{
@@ -27,7 +28,7 @@ const RootLayout = () => {
         <Stack.Screen name="about" options={{ title: "About" }} />
         <Stack.Screen name="contact" options={{ title: "Contact" }} />
       </Stack>
-    </>
+    </UserProvider>
   );
 };
 

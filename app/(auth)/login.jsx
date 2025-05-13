@@ -15,15 +15,18 @@ import ThemedText from "../../components/ThemedText";
 import { Colors } from "../../constants/Colors";
 import ThemedButton from "../../components/ThemedButton";
 import ThemedTextInput from "../../components/ThemedTextInput";
+import { useUser } from "../../hooks/useUser";
 
 const login = () => {
   const handleSubmit = function () {
     console.log("Register Form Submitted");
     console.log(email);
+    console.log("CurrentUser:", user);
   };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user } = useUser();
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
