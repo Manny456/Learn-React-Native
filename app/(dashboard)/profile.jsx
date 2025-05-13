@@ -7,18 +7,21 @@ import { useUser } from "../../hooks/useUser";
 import ThemedButton from "../../components/ThemedButton";
 
 const Profile = () => {
-  const { logout } = useUser();
+  const { logout, user } = useUser();
+  const logoutMessage = function () {
+    console.log("LoggedOut");
+  };
   return (
     <ThemedView safe={true} style={styles.container}>
       <ThemedText title={true} style={styles.heading}>
-        Your Email
+        {user?.email || "Not Logged In"}
       </ThemedText>
       <Spacer />
 
       <ThemedText>Time to start some Sessions...</ThemedText>
       <Spacer />
 
-      <ThemedButton onPress={logout}>
+      <ThemedButton onPress={(logout, logoutMessage)}>
         <ThemedText style={{ color: "#f2f2f2" }}>Logout</ThemedText>
       </ThemedButton>
     </ThemedView>

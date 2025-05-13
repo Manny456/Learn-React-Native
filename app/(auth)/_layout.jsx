@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import { useColorScheme } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { useUser } from "../../hooks/useUser";
+import GuestOnly from "../../components/auth/GuestOnly";
 
 export default function AuthLauout() {
   const colorSceheme = useColorScheme();
@@ -12,7 +13,7 @@ export default function AuthLauout() {
   console.log(user);
 
   return (
-    <>
+    <GuestOnly>
       <Stack
         screenOptions={{
           headerShown: false,
@@ -25,6 +26,6 @@ export default function AuthLauout() {
       ></Stack>
       <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       <StatusBar style="auto" />
-    </>
+    </GuestOnly>
   );
 }
