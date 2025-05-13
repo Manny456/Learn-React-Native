@@ -29,6 +29,7 @@ export function UserProvider({ children }) {
 
   async function logout() {
     account.deleteSession("current");
+    setUser(null);
   }
 
   async function getInitialUserValue() {

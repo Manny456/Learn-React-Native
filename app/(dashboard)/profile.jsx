@@ -21,7 +21,7 @@ const Profile = () => {
       <ThemedText>Time to start some Sessions...</ThemedText>
       <Spacer />
 
-      <ThemedButton onPress={(logout, logoutMessage)}>
+      <ThemedButton onPress={logout}>
         <ThemedText style={{ color: "#f2f2f2" }}>Logout</ThemedText>
       </ThemedButton>
     </ThemedView>
