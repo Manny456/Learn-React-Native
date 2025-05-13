@@ -1,9 +1,6 @@
 import {
   StyleSheet,
   Text,
-  View,
-  Pressable,
-  TextInput,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
@@ -17,16 +14,23 @@ import ThemedButton from "../../components/ThemedButton";
 import ThemedTextInput from "../../components/ThemedTextInput";
 import { useUser } from "../../hooks/useUser";
 
-const login = () => {
-  const handleSubmit = function () {
-    console.log("Register Form Submitted");
-    console.log(email);
-    console.log("CurrentUser:", user);
-  };
-
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user } = useUser();
+  const { login, user } = useUser();
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async function () {
+    setError(null);
+    console.log("Login Form Submitted");
+    console.log("CurrentUser:", user);
+    try {
+      await login(email, password);
+    } catch (err) {
+      console.log("Something went wrong");
+      setError(err.message || "An unexpected error occurred");
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -56,9 +60,12 @@ const login = () => {
         <ThemedButton onPress={handleSubmit}>
           <Text style={{ color: "#f2f2f2" }}>Login From Here</Text>
         </ThemedButton>
+        <Spacer />
+
+        {error && <Text style={styles.error}>{error}</Text>}
 
         <Spacer height={100} />
-        <Link href="/register">
+        <Link href="/Register">
           <ThemedText style={{ textAlign: "center" }}>
             Register Instead
           </ThemedText>
@@ -68,7 +75,7 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
@@ -88,5 +95,15 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.8,
+  },
+
+  error: {
+    color: Colors.warning,
+    padding: 10,
+    backgroundColor: "#f5c1c8",
+    borderColor: Colors.warning,
+    borderWidth: 1,
+    borderRadius: 6,
+    marginHorizontal: 10,
   },
 });

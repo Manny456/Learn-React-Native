@@ -28,10 +28,10 @@ const Home = () => {
 
       <Spacer height={10}></Spacer>
 
-      <Link style={styles.linkStyle} href="/register">
+      <Link style={styles.linkStyle} href="/Register">
         <ThemedText>Register</ThemedText>
       </Link>
-      <Link style={styles.linkStyle} href="/login">
+      <Link style={styles.linkStyle} href="/Login">
         <ThemedText>Login</ThemedText>
       </Link>
       <Link style={styles.linkStyle} href="/profile">
