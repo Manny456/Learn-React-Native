@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useUser } from "../../hooks/useUser";
 import { useEffect } from "react";
-import ThemedText from "../ThemedText";
+import ThemedLoader from "../ThemedLoader";
 
 const Useronly = ({ children }) => {
   const { user, authChecked } = useUser();
@@ -14,7 +14,7 @@ const Useronly = ({ children }) => {
   }, [user, authChecked]);
 
   if (!authChecked || !user) {
-    return <ThemedText>Loading</ThemedText>;
+    return <ThemedLoader />;
   }
   return children;
 };

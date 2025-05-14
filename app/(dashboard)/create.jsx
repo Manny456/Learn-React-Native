@@ -1,10 +1,20 @@
 import { StyleSheet } from "react-native";
 
-import Spacer from "../../components/Spacer";
 import ThemedText from "../../components/ThemedText";
 import ThemedView from "../../components/ThemedView";
+import { useState } from "react";
+import { useFights } from "../../hooks/useFights";
+import { useRouter } from "expo-router";
 
 const Create = () => {
+  const [title, setTitle] = useState("");
+  const [author, setHost] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const { createSession } = useFights();
+  const router = useRouter();
+
   return (
     <ThemedView style={styles.container}>
       <ThemedText title={true} style={styles.heading}>
