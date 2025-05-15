@@ -1,15 +1,13 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
-import {
-  COLLECTION_ID,
-  DATABASE_ID,
-  OLLECTION_ID,
-  databases,
-} from "../lib/appwrite";
+import { databases } from "../lib/appwrite";
 import { ID, Permission, Role } from "react-native-appwrite";
 import { useUser } from "../hooks/useUser";
 
 export const FightSessionContext = createContext();
+
+const DATABASE_ID = "682469fc0022040f901a";
+const COLLECTION_ID = "68246a20003bf875bb2a";
 
 export function FightProvider({ children }) {
   const [fightSession, setFightSession] = useState([]);
@@ -29,23 +27,50 @@ export function FightProvider({ children }) {
     }
   }
 
-  async function createSession(data) {
+  //   async function createSession(data) {
+  //     console.log("Create session called");
+  //     try {
+  //       console.log("Making a whole new session");
+  //       const newSession = await databases.createDocument(
+  //         DATABASE_ID,
+  //         COLLECTION_ID,
+  //         ID.unique(),
+  //         { ...data, userId: user.$id },
+  //         [
+  //           Permission.read(Role(user.$id)),
+  //           Permission.update(Role(user.$id)),
+  //           Permission.delete(Role(user.$id)),
+  //         ]
+  //       );
+  //       console.log("New session created:", newSession);
+
+  //       return newSession;
+  //     } catch (err) {
+  //       console.log("Error creating session");
+  //       throw err;
+  //     }
+  //   }
+
+  const createSession = async (formData) => {
+    console.log("CREATE SESSION FUNCTION CALLED");
+
     try {
-      const newSession = await databases.createDocument(
+      const res = await databases.createDocument(
         DATABASE_ID,
         COLLECTION_ID,
         ID.unique(),
-        { ...data, userId: user.$id },
-        [
-          Permission.read(Role(user.$id)),
-          Permission.update(Role(user.$id)),
-          Permission.delete(Role(user.$id)),
-        ]
+        {
+          title: formData.title,
+          hostName: formData.hostName,
+          description: formData.description,
+          userId: user.$id,
+        }
       );
+      console.log("Created session:", res);
     } catch (err) {
-      console.log(err);
+      console.error("Error:", err);
     }
-  }
+  };
 
   async function deleteSession() {
     try {
@@ -56,7 +81,13 @@ export function FightProvider({ children }) {
 
   return (
     <FightSessionContext.Provider
-      value={{ fetchSessions, fetchSessionById, deleteSession, createSession }}
+      value={{
+        fightSession,
+        fetchSessions,
+        fetchSessionById,
+        deleteSession,
+        createSession,
+      }}
     >
       {children}
     </FightSessionContext.Provider>

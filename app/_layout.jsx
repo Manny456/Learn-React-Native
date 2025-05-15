@@ -4,10 +4,7 @@ import { Stack } from "expo-router";
 import { Colors } from "../constants/Colors";
 import { StatusBar } from "expo-status-bar";
 import { UserProvider } from "../contexts/userContext";
-import {
-  FightProvider,
-  FightSessionContext,
-} from "../contexts/fightSessionContext";
+import { FightProvider } from "../contexts/fightSessionContext";
 
 const RootLayout = () => {
   const colorSceheme = useColorScheme();
