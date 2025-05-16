@@ -1,13 +1,11 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
-import { databases } from "../lib/appwrite";
-import { ID, Permission, Role } from "react-native-appwrite";
+import { databases, client } from "../lib/appwrite";
+import { ID, Query } from "react-native-appwrite";
 import { useUser } from "../hooks/useUser";
+import { DATABASE_ID, COLLECTION_ID } from "../lib/appwrite";
 
 export const FightSessionContext = createContext();
-
-const DATABASE_ID = "682469fc0022040f901a";
-const COLLECTION_ID = "68246a20003bf875bb2a";
 
 export function FightProvider({ children }) {
   const [fightSession, setFightSession] = useState([]);
@@ -15,41 +13,32 @@ export function FightProvider({ children }) {
 
   async function fetchSessions() {
     try {
+      const response = await databases.listDocuments(
+        DATABASE_ID,
+        COLLECTION_ID,
+        [Query.equal("userId", user.$id)]
+      );
+      setFightSession(response.documents);
+      console.log("Fetched sessions:", response.documents);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
   async function fetchSessionById(id) {
+    console.log("FETCH SESSION BY ID FUNCTION CALLED");
     try {
+      const response = await databases.getDocument(
+        DATABASE_ID,
+        COLLECTION_ID,
+        id
+      );
+
+      return response;
     } catch (err) {
       console.log(err);
     }
   }
-
-  //   async function createSession(data) {
-  //     console.log("Create session called");
-  //     try {
-  //       console.log("Making a whole new session");
-  //       const newSession = await databases.createDocument(
-  //         DATABASE_ID,
-  //         COLLECTION_ID,
-  //         ID.unique(),
-  //         { ...data, userId: user.$id },
-  //         [
-  //           Permission.read(Role(user.$id)),
-  //           Permission.update(Role(user.$id)),
-  //           Permission.delete(Role(user.$id)),
-  //         ]
-  //       );
-  //       console.log("New session created:", newSession);
-
-  //       return newSession;
-  //     } catch (err) {
-  //       console.log("Error creating session");
-  //       throw err;
-  //     }
-  //   }
 
   const createSession = async (formData) => {
     console.log("CREATE SESSION FUNCTION CALLED");
@@ -72,12 +61,55 @@ export function FightProvider({ children }) {
     }
   };
 
-  async function deleteSession() {
+  async function deleteSession(id) {
     try {
+      const response = await databases.deleteDocument(
+        DATABASE_ID,
+        COLLECTION_ID,
+        id
+      );
+      console.log("Deleted session:", response);
     } catch (err) {
       console.log(err);
     }
   }
+
+  useEffect(() => {
+    let unsubscribe;
+    const channel = `databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`;
+
+    if (user) {
+      fetchSessions();
+
+      unsubscribe = client.subscribe(channel, (response) => {
+        const { events, payload } = response;
+
+        if (events[0].includes("create")) {
+          setFightSession((initialSessions) => [...initialSessions, payload]);
+          console.log("New session created and added to Sessions");
+        }
+
+        if (events[0].includes("delete")) {
+          setFightSession((initialSessions) => {
+            return initialSessions.filter(
+              (session) => session.$id !== payload.$id
+            );
+          });
+
+          console.log("New session created and added to Sessions");
+        }
+      });
+    } else {
+      setFightSession([]);
+    }
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+        console.log("Unsubscribed from channel");
+      }
+    };
+  }, [user]);
 
   return (
     <FightSessionContext.Provider

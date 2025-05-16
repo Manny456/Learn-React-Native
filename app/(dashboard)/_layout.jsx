@@ -69,6 +69,7 @@ const DashboardLayout = () => {
               },
             }}
           />
+          <Tabs.Screen name="fightSessions/[id]" options={{ href: null }} />
         </Tabs>
       </FightProvider>
     </Useronly>

@@ -46,7 +46,7 @@ const Create = () => {
       setLoading(false);
 
       // Redirect
-      router.replace("/profile");
+      router.replace("/fightSessions");
     }
   };
 
